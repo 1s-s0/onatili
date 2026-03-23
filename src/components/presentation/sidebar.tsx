@@ -10,7 +10,8 @@ import {
   HandRaisedIcon,
   DocumentTextIcon,
   MapPinIcon,
-  XCircleIcon
+  XCircleIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline'
 import {
   SparklesIcon as SparklesSolidIcon,
@@ -54,7 +55,7 @@ export function Sidebar({ sections, activeSection, onSectionClick, isOpen, onClo
           onClick={onClose}
         />
       )}
-      
+
       {/* Sidebar */}
       <motion.aside
         initial={false}
@@ -64,13 +65,35 @@ export function Sidebar({ sections, activeSection, onSectionClick, isOpen, onClo
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className={cn(
-          'fixed top-0 left-0 h-full w-72 glass-dark z-50 overflow-y-auto border-r border-white/10',
-          'lg:translate-x-0 lg:static lg:z-0 lg:opacity-100'
+          'fixed top-0 left-0 h-full w-72 glass-dark z-50 overflow-y-auto border-r border-white/10 safe-top',
+          'lg:translate-x-0 lg:static lg:z-0 lg:opacity-100 lg:h-screen'
         )}
       >
-        <div className="p-6 flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center gap-4 mb-8">
+        <div className="p-4 lg:p-6 flex flex-col h-full">
+          {/* Header with close button for mobile */}
+          <div className="lg:hidden flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl gradient-lime flex items-center justify-center shadow-lg shadow-lime-500/30">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-white">O'zbek Fe'li</h1>
+                <p className="text-xs text-white/50">Grammatika</p>
+              </div>
+            </div>
+            <motion.button
+              onClick={onClose}
+              className="p-2 rounded-xl glass-dark text-white/60 hover:text-white touch-target"
+              whileTap={{ scale: 0.95 }}
+            >
+              <XMarkIcon className="w-6 h-6" />
+            </motion.button>
+          </div>
+
+          {/* Logo - Desktop only */}
+          <div className="hidden lg:flex items-center gap-4 mb-8">
             <div className="w-14 h-14 rounded-2xl gradient-lime flex items-center justify-center shadow-lg shadow-lime-500/30">
               <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -87,7 +110,7 @@ export function Sidebar({ sections, activeSection, onSectionClick, isOpen, onClo
             {sections.map((section) => {
               const Icons = iconMap[section.icon] || iconMap['📚']
               const isActive = activeSection === section.id
-              
+
               return (
                 <motion.button
                   key={section.id}
@@ -96,7 +119,7 @@ export function Sidebar({ sections, activeSection, onSectionClick, isOpen, onClo
                     onClose()
                   }}
                   className={cn(
-                    'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200',
+                    'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 touch-target',
                     isActive
                       ? 'bg-lime-500/15 text-lime-500 border border-lime-500/20'
                       : 'text-white/60 hover:bg-white/5 hover:text-white'

@@ -8,7 +8,7 @@ import { GameMode } from '@/components/game/game-mode'
 import { NavigationDock } from '@/components/navigation-dock'
 import { sections } from '@/data/uzbek-verbs'
 import { cn } from '@/lib/utils'
-import { BookOpenIcon } from '@heroicons/react/24/outline'
+import { BookOpenIcon, Bars3Icon } from '@heroicons/react/24/outline'
 
 type AppMode = 'presentation' | 'game'
 
@@ -59,7 +59,7 @@ function AppContent() {
         {/* Sidebar - always in DOM, visibility controlled */}
         <div className={cn(
           'flex-shrink-0 transition-all duration-500 ease-in-out',
-          mode === 'presentation' ? 'w-72 opacity-100' : 'w-0 opacity-0 overflow-hidden'
+          mode === 'presentation' ? 'w-0 opacity-100' : 'w-0 opacity-0 overflow-hidden'
         )}>
           <Sidebar
             sections={sections}
@@ -80,25 +80,42 @@ function AppContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                // FIX: Full width container with proper padding
-                className="w-full px-6 lg:px-12 py-12 lg:py-16 pb-32"
+                className="w-full px-4 sm:px-6 lg:px-12 py-8 sm:py-12 lg:py-16 pb-32"
               >
+                {/* Mobile header with hamburger menu */}
+                <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between p-4 safe-top">
+                  <motion.button
+                    onClick={() => setSidebarOpen(true)}
+                    className="p-3 rounded-xl glass-dark text-white/80 hover:text-white touch-target"
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Bars3Icon className="w-6 h-6" />
+                  </motion.button>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl gradient-lime flex items-center justify-center shadow-lg shadow-lime-500/30">
+                      <BookOpenIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="text-white font-semibold text-sm">O'zbek Fe'li</span>
+                  </div>
+                  <div className="w-10" /> {/* Spacer for centering */}
+                </div>
+
                 {/* Content centered with max-width - this is the key fix */}
-                <div className="w-full max-w-6xl mx-auto space-y-16">
+                <div className="w-full max-w-6xl mx-auto space-y-12 sm:space-y-16 pt-16 lg:pt-8">
                   {/* Hero section */}
                   <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center space-y-6 pt-8"
+                    className="text-center space-y-4 sm:space-y-6 pt-4 sm:pt-8"
                   >
-                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl gradient-lime mb-4 shadow-2xl shadow-lime-500/30">
-                      <BookOpenIcon className="w-10 h-10 text-white" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl gradient-lime mb-4 shadow-2xl shadow-lime-500/30">
+                      <BookOpenIcon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                     </div>
-                    <h1 className="text-5xl lg:text-6xl font-bold text-white tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white tracking-tight">
                       O'zbek Fe'li
                     </h1>
-                    <p className="text-xl text-white/60 max-w-2xl mx-auto font-light">
+                    <p className="text-base sm:text-lg lg:text-xl text-white/60 max-w-2xl mx-auto font-light px-4">
                       O'zbek tili grammatikasini chuqur o'rganing: fe'l yasovchi qo'shimchalar, zamon, mayl, nisbat va ko'makchi fe'llar
                     </p>
                   </motion.div>
@@ -124,8 +141,7 @@ function AppContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                // FIX: Full width container with proper padding
-                className="w-full px-6 py-8 pb-32"
+                className="w-full px-4 sm:px-6 py-8 pb-32 pt-20 lg:pt-8"
               >
                 {/* Game content centered */}
                 <div className="w-full max-w-4xl mx-auto">

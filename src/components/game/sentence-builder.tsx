@@ -21,7 +21,7 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
 
   const handleWordClick = useCallback((word: string) => {
     if (isSubmitted) return
-    
+
     setSelectedWords(prev => [...prev, word])
     setAvailableWords(prev => {
       const index = prev.indexOf(word)
@@ -34,7 +34,7 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
 
   const handleRemoveWord = useCallback((index: number) => {
     if (isSubmitted) return
-    
+
     const wordToRemove = selectedWords[index]
     setSelectedWords(prev => prev.filter((_, i) => i !== index))
     setAvailableWords(prev => [...prev, wordToRemove])
@@ -43,10 +43,10 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
   const handleSubmit = useCallback(() => {
     const answer = selectedWords.join(' ')
     const correct = answer === exercise.correctAnswer
-    
+
     setIsCorrect(correct)
     setIsSubmitted(true)
-    
+
     if (correct) {
       addScore(10)
     } else {
@@ -68,17 +68,17 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
   }, [onComplete])
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Answer area */}
       <Card variant="glass">
-        <CardHeader>
-          <CardTitle className="text-lg text-white/80 flex items-center gap-2">
-            <span className="w-1 h-6 gradient-lime rounded-full" />
+        <CardHeader className="px-4 sm:px-6 py-4">
+          <CardTitle className="text-base sm:text-lg text-white/80 flex items-center gap-2">
+            <span className="w-1 h-5 sm:h-6 gradient-lime rounded-full" />
             Javobingiz:
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="min-h-[80px] p-4 rounded-2xl bg-white/5 border border-white/10 flex flex-wrap gap-2">
+        <CardContent className="px-4 sm:px-6 pb-6">
+          <div className="min-h-[70px] sm:min-h-[80px] p-3 sm:p-4 rounded-2xl bg-white/5 border border-white/10 flex flex-wrap gap-2">
             <AnimatePresence>
               {selectedWords.map((word, index) => (
                 <motion.button
@@ -89,7 +89,7 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
                   onClick={() => handleRemoveWord(index)}
                   disabled={isSubmitted}
                   className={cn(
-                    'px-4 py-2.5 rounded-xl font-medium transition-all',
+                    'px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-medium transition-all touch-target text-sm sm:text-base',
                     isSubmitted
                       ? 'bg-lime-500/20 text-lime-500 border border-lime-500/30 cursor-default'
                       : 'bg-white/20 text-white hover:bg-red-500/50 border border-white/10 cursor-pointer'
@@ -100,9 +100,9 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
               ))}
             </AnimatePresence>
             {selectedWords.length === 0 && (
-              <p className="text-white/40 italic flex items-center gap-2">
+              <p className="text-white/40 italic flex items-center gap-2 text-sm sm:text-base">
                 <ArrowPathIcon className="w-4 h-4" />
-                So'zlarni tanlang...
+                <span>So'zlarni tanlang...</span>
               </p>
             )}
           </div>
@@ -110,7 +110,7 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
       </Card>
 
       {/* Word options */}
-      <div className="flex flex-wrap gap-3 justify-center">
+      <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
         {availableWords.map((word, index) => (
           <motion.button
             key={`${word}-${index}`}
@@ -120,7 +120,7 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
             onClick={() => handleWordClick(word)}
             disabled={isSubmitted}
             className={cn(
-              'px-6 py-3.5 rounded-xl font-semibold transition-all shadow-lg',
+              'px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl font-semibold transition-all shadow-lg touch-target text-sm sm:text-base',
               'bg-gradient-to-r from-lime-500 to-lime-600 text-white',
               'hover:shadow-xl hover:shadow-lime-500/30 hover:scale-105',
               isSubmitted && 'opacity-50 cursor-not-allowed'
@@ -132,26 +132,27 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
       </div>
 
       {/* Action buttons */}
-      <div className="flex gap-4 justify-center">
+      <div className="flex gap-3 sm:gap-4 justify-center">
         {!isSubmitted ? (
           <>
             <Button
               onClick={handleReset}
               variant="ghost"
               size="lg"
-              className="gap-2"
+              className="gap-2 text-sm sm:text-base"
             >
-              <ArrowPathIcon className="w-5 h-5" />
-              Tozalash
+              <ArrowPathIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Tozalash</span>
+              <span className="sm:hidden">Toza</span>
             </Button>
             <Button
               onClick={handleSubmit}
               variant="lime"
               size="lg"
               disabled={selectedWords.length === 0}
-              className="gap-2"
+              className="gap-2 text-sm sm:text-base"
             >
-              <CheckIcon className="w-5 h-5" />
+              <CheckIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               Tekshirish
             </Button>
           </>
@@ -160,6 +161,7 @@ export function SentenceBuilder({ exercise, onComplete }: SentenceBuilderProps) 
             onClick={handleNext}
             variant="lime"
             size="lg"
+            className="text-sm sm:text-base"
           >
             Keyingi
           </Button>

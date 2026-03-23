@@ -10,12 +10,12 @@ interface NavigationDockProps {
 
 export function NavigationDock({ mode, onModeChange }: NavigationDockProps) {
   return (
-    <div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
+    <div className="fixed bottom-4 sm:bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none px-4 safe-bottom">
       <motion.div
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="glass-dark rounded-2xl px-2 py-2 flex items-center gap-1 pointer-events-auto shadow-2xl shadow-black/50"
+        className="glass-dark rounded-2xl px-1 sm:px-2 py-2 flex items-center gap-1 pointer-events-auto shadow-2xl shadow-black/50 touch-target"
       >
         <DockButton
           isActive={mode === 'presentation'}
@@ -24,7 +24,7 @@ export function NavigationDock({ mode, onModeChange }: NavigationDockProps) {
           activeIcon={BookOpenSolidIcon}
           label="Ta'lim"
         />
-        <div className="w-px h-8 bg-white/10 mx-1" />
+        <div className="w-px h-6 sm:h-8 bg-white/10 mx-1" />
         <DockButton
           isActive={mode === 'game'}
           onClick={() => onModeChange('game')}
@@ -50,7 +50,7 @@ function DockButton({ isActive, onClick, icon: Icon, activeIcon: ActiveIcon, lab
     <motion.button
       onClick={onClick}
       className={cn(
-        'relative flex flex-col items-center justify-center px-4 py-2 rounded-xl transition-all duration-300',
+        'relative flex flex-col items-center justify-center px-3 sm:px-4 py-2 rounded-xl transition-all duration-300 touch-target',
         isActive
           ? 'bg-lime-500/20 text-lime-500'
           : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -67,13 +67,13 @@ function DockButton({ isActive, onClick, icon: Icon, activeIcon: ActiveIcon, lab
       )}
       <div className="relative z-10">
         {isActive ? (
-          <ActiveIcon className="w-6 h-6" />
+          <ActiveIcon className="w-5 h-5 sm:w-6 sm:h-6" />
         ) : (
-          <Icon className="w-6 h-6" />
+          <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
         )}
       </div>
       <span className={cn(
-        'text-xs mt-1 font-medium transition-all duration-300',
+        'text-xs mt-1 font-medium transition-all duration-300 whitespace-nowrap',
         isActive ? 'text-lime-500 opacity-100' : 'opacity-0 group-hover:opacity-100'
       )}>
         {label}
